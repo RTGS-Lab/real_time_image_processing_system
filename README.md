@@ -1,7 +1,6 @@
 # Realtime Spatial Image Processing System
 Prototype system for spatial image processing able to hand aerial and oblique views.
 
-Project Description:
 This project will pull satellite images from an API, analyze these images, and then store them somewhere.
 
 Expected Technical Challenges:
@@ -11,6 +10,6 @@ Expected Technical Challenges:
 - Not all data entering the program is guaranteed to be an image.
 - Image data may be corrupted in some way, with incorrect or missing coordinates, time stamps, or attribute data.
 
-Contributors
-Dr. Bryan Runck
-Alec Olson
+Contributors:
+- Dr. Bryan Runck
+- Alec Olson
