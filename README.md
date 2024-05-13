@@ -9,7 +9,9 @@ Expected Technical Challenges:
 - Spatial resolution and spatial extent may vary among the images, which will require a flexible program to be able to analyze all of them.
 - Not all data entering the program is guaranteed to be an image.
 - Image data may be corrupted in some way, with incorrect or missing coordinates, time stamps, or attribute data.
+- Not all images may be useful or desired. There may have to be a way to sort out which images have little or no value to the project.
+- If collecting images from multiple sources, there may be differences in file formats, documentation, or attribute data, so a program that works for one source of images may not work perfectly for another source.
 
 Contributors:
-- Dr. Bryan Runck
 - Alec Olson
+- Dr. Bryan Runck
