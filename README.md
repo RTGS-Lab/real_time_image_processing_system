@@ -1,7 +1,7 @@
 # Realtime Spatial Image Processing System
 Prototype system for spatial image processing able to hand aerial and oblique views.
 
-This project will pull satellite images from an API, analyze these images, and then store them somewhere.
+This project will pull real-time aerial and satellite imagery, store metadata about these images in a database, and save the images to disk.
 
 Expected Technical Challenges:
 - Throughput of images pulled from the API has the potential to be higher than the throughput of analyzing them. This would create a backlog in the program, and it would eventually overwhelm memory.
@@ -11,6 +11,9 @@ Expected Technical Challenges:
 - Image data may be corrupted in some way, with incorrect or missing coordinates, time stamps, or attribute data.
 - Not all images may be useful or desired. There may have to be a way to sort out which images have little or no value to the project.
 - If collecting images from multiple sources, there may be differences in file formats, documentation, or attribute data, so a program that works for one source of images may not work perfectly for another source.
+
+Link to Google Drive folder:
+https://drive.google.com/drive/folders/1-9JLfV14hQm7SkclQHYk9m-S93KJrZm7
 
 Contributors:
 - Alec Olson
