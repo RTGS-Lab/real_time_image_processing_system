@@ -6,7 +6,7 @@ date: "2024-05-16"
 
 
 ```{r}
-data <- read.csv("time.txt", header=TRUE)
+data <- read.csv("time.csv", header=TRUE)
 bytes <- data$bytes
 times <- data$time
 hist(times)
@@ -21,7 +21,7 @@ b <- coefficients(result)[2]
 
 abline(a, b)
 
-print("Because the p value for bytes is 0.139 > any significant p value, and because the r^2 value is 0.022, we have strong evidence to suggest that the size of the image file in bytes does not have a signicant impact on the time it takes the program to retrieve and save the file.")
+print("Because the p value for bytes is 0.247 > any significant p value, and because the r^2 value is 0.014, we have strong evidence to suggest that the size of the image file in bytes does not have a signicant impact on the time it takes the program to retrieve and save the file. If we remove the outlier, the p value skyrockets to roughly 0.9.")
 
 probs <- ppoints(99)
 res.perc <- quantile(times, probs)
