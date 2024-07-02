@@ -1,0 +1,33 @@
+---
+title: "gsoytest"
+output: html_document
+date: "2024-05-16"
+---
+
+
+```{r}
+data <- read.csv("time.txt", header=TRUE)
+bytes <- data$bytes
+times <- data$time
+hist(times)
+
+
+result <- lm(times ~ bytes)
+summary(result)
+
+plot(times ~ bytes)
+a <- coefficients(result)[1]
+b <- coefficients(result)[2]
+
+abline(a, b)
+
+print("Because the p value for bytes is 0.139 > any significant p value, and because the r^2 value is 0.022, we have strong evidence to suggest that the size of the image file in bytes does not have a signicant impact on the time it takes the program to retrieve and save the file.")
+
+probs <- ppoints(99)
+res.perc <- quantile(times, probs)
+true.perc <- qnorm(probs, mean=mean(times), sd=sd(times))
+plot(res.perc, true.perc)
+abline(0,1)
+print("The QQ plot does not provide strong evidence that the time it takes to retrieve and save an image follows a normal distribution.")
+```
+
