@@ -24,8 +24,8 @@ def image(xmin, xmax, ymin, ymax):
 # minx="602935.2" miny="5143471.2" maxx="730540.8" maxy="5223000" Wisconsin south shore
 # xcors = list(range(575000, 580001, 1000))     Duluth coordinates
 # ycors = list(range(5195000, 5200001, 1000))   Duluth coordinates
-xcors = list(range(650000, 680001, 3000))       # Wisconsin coordinates
-ycors = list(range(5180000, 5210001, 3000))     # Wisconsin coordinates
+xcors = list(range(650000, 680001, 5000))       # Wisconsin coordinates
+ycors = list(range(5180000, 5210001, 5000))     # Wisconsin coordinates
 timelist = []
 data_dict = {}
 
@@ -43,25 +43,29 @@ for i in range(len(xcors)-1):
         output.close()
         bytes = os.path.getsize(f'C:\\Users\\ols00160\\Desktop\\project0\\images\\testimage{count}.jpeg')
         filename = 'testimage' + str(count) + '.jpeg'
-        data_dict[filename] = {}
-        data_dict[filename]['bytes'] = bytes
-        data_dict[filename]['coordinates'] = {}
-        data_dict[filename]['coordinates']['xmin'] = xmin
-        data_dict[filename]['coordinates']['xmax'] = xmax
-        data_dict[filename]['coordinates']['ymin'] = ymin
-        data_dict[filename]['coordinates']['ymax'] = ymax
+        #data_dict[filename] = {}
+        data_dict['filename'] = filename
+        data_dict['bytes'] = bytes
+        data_dict['coordinates'] = {}
+        data_dict['coordinates']['xmin'] = xmin
+        data_dict['coordinates']['xmax'] = xmax
+        data_dict['coordinates']['ymin'] = ymin
+        data_dict['coordinates']['ymax'] = ymax
         count += 1
+        with open('data.json', 'w') as fp:
+            json.dump(data_dict, fp)
+        response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': open(f'C:\\Users\\ols00160\\Desktop\\project0\\images\\{filename}', 'rb'), 'data': open('data.json', 'r')})    # open the image here
         end_time = time.time()
         timelist.append([bytes, end_time - start_time])
 
 print(timelist)
-with open('time.txt', 'w') as fp:
+with open('time.csv', 'w') as fp:
     fp.write('bytes,time\n')
     for time in timelist:
         fp.write(f'{time[0]},{time[1]}\n')
 
-with open('data.json', 'w') as fp:
-    json.dump(data_dict, fp)
+# with open('data.json', 'w') as fp:
+#     json.dump(data_dict, fp)
 
 # response = requests.get(f'https://imageserver.gisdata.mn.gov/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetMap&LAYERS=wisc09&STYLES=population&CRS=EPSG%3A26915&BBOX=650000,5180000,680000,5210000&width=1000&height=1000&format=image/jpeg')    
 # output = open('C:\\Users\\ols00160\\Desktop\\project0\\static\\images\\testimage001.jpeg', 'wb')
