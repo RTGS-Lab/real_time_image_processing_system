@@ -15,7 +15,7 @@ import json
 app = Flask(__name__)
 
 
-@app.route('/')
+# @app.route('/')
 # def main(name=None):
 #     return render_template(filename, name=name)
 
@@ -31,13 +31,13 @@ app = Flask(__name__)
 def saveimages():
     if request.method=='POST':
         image = request.files['image']
-        #data = json.load(request.files['data'])
+        data = json.load(request.files['data'])
         #size = request.json['size']
         #im = rasterio.open(image)
         im = Image.open(image)
         bytes = im.tobytes()
         #filename = 'doesthiswork' + str(size) + '.jpeg'
-        #im.save('doesthiswork.jpeg')
+        im.save(f'test{data['filename']}')
         #print(bytes[0:100])
         # image_name = f'{image.filename}testing'
         # image.save(image_name.tobytes())
