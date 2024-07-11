@@ -4,7 +4,7 @@ Prototype system for spatial image processing able to hand aerial and oblique vi
 This project will pull real-time aerial and satellite imagery, store metadata about these images in a database, and save the images to disk.
 
 Navigation:
-- The apis directory contain two Python scripts, mngeoservices.py and noaaClimateData.py, that request satellite imagery and climate data, respectively, from Minnesota Geospatial Image Service and NOAA. This directory also contains a Flask script, flaskdemo.py, that receives images at an endpoint and returns the first 100 bytes of those images.
+- The apis directory contain two Python scripts `mngeoservices.py` and `noaaClimateData.py`, that request satellite imagery and climate data, respectively, from Minnesota Geospatial Image Service and NOAA. This directory also contains a Flask script, flaskdemo.py, that receives images at an endpoint and returns the first 100 bytes of those images.
 - The imagetests directory contains four Python scripts. 
     - randomimagegenerator.py generates images based on random numpy arrays and saves those images to disk.
     - tiftest.py takes a tif file, creates a json file with the metadata from the tif, and sends both bytestreams to a Flask endpoint.
