@@ -7,9 +7,14 @@ date: "2024-05-16"
 
 ```{r}
 data <- read.csv("time.csv", header=TRUE)
+data2 <- read.csv("time2.csv", header=TRUE)
 bytes <- data$bytes
 times <- data$time
+times2 <- data2$time
 hist(times)
+mean(times)
+hist(times2)
+mean(times2)
 
 
 result <- lm(times ~ bytes)

@@ -38,14 +38,10 @@ for i in range(len(xcors)-1):
         ymin = ycors[j]
         ymax = ycors[j+1]
         result = image(xmin, xmax, ymin, ymax)
-        output = open(f'C:\\Users\\ols00160\\Desktop\\project0\\images\\testimage{count}.jpeg', 'wb')
-        output.write(result)
-        output.close()
-        bytes = os.path.getsize(f'C:\\Users\\ols00160\\Desktop\\project0\\images\\testimage{count}.jpeg')
         filename = 'testimage' + str(count) + '.jpeg'
         #data_dict[filename] = {}
         data_dict['filename'] = filename
-        data_dict['bytes'] = bytes
+        #data_dict['bytes'] = bytes
         data_dict['coordinates'] = {}
         data_dict['coordinates']['xmin'] = xmin
         data_dict['coordinates']['xmax'] = xmax
@@ -54,12 +50,12 @@ for i in range(len(xcors)-1):
         count += 1
         with open('data.json', 'w') as fp:
             json.dump(data_dict, fp)
-        response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': open(f'C:\\Users\\ols00160\\Desktop\\project0\\images\\{filename}', 'rb'), 'data': open('data.json', 'r')})    # open the image here
+        response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': result, 'data': open('data.json', 'r')})    # open the image here
         end_time = time.time()
         timelist.append([bytes, end_time - start_time])
 
 print(timelist)
-with open('time.csv', 'w') as fp:
+with open('time2.csv', 'w') as fp:
     fp.write('bytes,time\n')
     for time in timelist:
         fp.write(f'{time[0]},{time[1]}\n')

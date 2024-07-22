@@ -4,8 +4,12 @@ from flask import Flask, render_template, request
 from PIL import Image
 import rasterio
 import json
+import os
 #import numpy as np
 
+newdir = f'.\\flaskimages'
+if not os.path.exists(newdir):
+    os.makedirs(newdir)
 
 #years = list(range(2001, 2003))
 #filename = noaa.getGSOY(years)
@@ -37,7 +41,7 @@ def saveimages():
         im = Image.open(image)
         bytes = im.tobytes()
         #filename = 'doesthiswork' + str(size) + '.jpeg'
-        im.save(f'test{data['filename']}')
+        im.save(f'.\\flaskimages\\{data['filename']}')
         #print(bytes[0:100])
         # image_name = f'{image.filename}testing'
         # image.save(image_name.tobytes())
