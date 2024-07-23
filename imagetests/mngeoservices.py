@@ -27,7 +27,7 @@ def image(xmin, xmax, ymin, ymax):
 xcors = list(range(650000, 680001, 5000))       # Wisconsin coordinates
 ycors = list(range(5180000, 5210001, 5000))     # Wisconsin coordinates
 timelist = []
-data_dict = {}
+datalist = []
 
 count = 100     # start count at 0 for Duluth; start count at 100 for Wisconsin
 for i in range(len(xcors)-1):
@@ -39,7 +39,7 @@ for i in range(len(xcors)-1):
         ymax = ycors[j+1]
         result = image(xmin, xmax, ymin, ymax)
         filename = 'testimage' + str(count) + '.jpeg'
-        #data_dict[filename] = {}
+        data_dict = {}
         data_dict['filename'] = filename
         #data_dict['bytes'] = bytes
         data_dict['coordinates'] = {}
@@ -48,6 +48,7 @@ for i in range(len(xcors)-1):
         data_dict['coordinates']['ymin'] = ymin
         data_dict['coordinates']['ymax'] = ymax
         count += 1
+        datalist.append(data_dict)
         with open('data.json', 'w') as fp:
             json.dump(data_dict, fp)
         response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': result, 'data': open('data.json', 'r')})    # open the image here
@@ -59,6 +60,10 @@ with open('time2.csv', 'w') as fp:
     fp.write('bytes,time\n')
     for time in timelist:
         fp.write(f'{time[0]},{time[1]}\n')
+
+with open('metadata.json', 'w') as fp:
+    for i in range(len(datalist)):
+        json.dump(datalist[i], fp)
 
 # with open('data.json', 'w') as fp:
 #     json.dump(data_dict, fp)
