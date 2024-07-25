@@ -1,0 +1,45 @@
+---
+title: "randomimagetimeanalysis"
+output: html_document
+date: "2024-07-25"
+---
+
+
+```{r}
+time1 <- read.csv("randomimagetimes1000.csv")
+time2 <- read.csv("randomimagetimes2000.csv")
+time3 <- read.csv("randomimagetimes3000.csv")
+time4 <- read.csv("randomimagetimes4000.csv")
+time5 <- read.csv("randomimagetimes5000.csv")
+```
+
+```{r}
+dif1 <- mean(time1$script) - mean(time1$flask)
+dif2 <- mean(time2$script) - mean(time2$flask)
+dif3 <- mean(time3$script) - mean(time3$flask)
+dif4 <- mean(time4$script) - mean(time4$flask)
+dif5 <- mean(time5$script) - mean(time5$flask)
+
+dimensions <- c(1000, 2000, 3000, 4000, 5000)
+scripts <- c(mean(time1$script), mean(time2$script), mean(time3$script), mean(time4$script), mean(time5$script))
+flasks <- c(mean(time1$flask), mean(time2$flask), mean(time3$flask), mean(time4$flask), mean(time5$flask))
+difs <- c(dif1, dif2, dif3, dif4, dif5)
+plot(flasks ~ dimensions, ylim=c(0, 1.3))
+points(scripts ~ dimensions)
+points(difs ~ dimensions)
+```
+
+```{r}
+percent1 <- mean(time1$flask) / mean(time1$script)
+percent2 <- mean(time2$flask) / mean(time2$script)
+percent3 <- mean(time3$flask) / mean(time3$script)
+percent4 <- mean(time4$flask) / mean(time4$script)
+percent5 <- mean(time5$flask) / mean(time5$script)
+percents <- c(percent1, percent2, percent3, percent4, percent5)
+plot(percents ~ dimensions, ylim=c(0, 1))
+percent1
+percent5
+
+```
+
+

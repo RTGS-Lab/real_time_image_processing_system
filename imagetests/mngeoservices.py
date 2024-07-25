@@ -62,8 +62,11 @@ with open('time2.csv', 'w') as fp:
         fp.write(f'{time[0]},{time[1]}\n')
 
 with open('metadata.json', 'w') as fp:
-    for i in range(len(datalist)):
-        json.dump(datalist[i], fp)
+    json.dump(datalist, fp)
+    # for i in range(len(datalist)):
+    #     json.dump(datalist[i], fp)
+
+print(datalist)
 
 # with open('data.json', 'w') as fp:
 #     json.dump(data_dict, fp)
