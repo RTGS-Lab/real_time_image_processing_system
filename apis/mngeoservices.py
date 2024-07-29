@@ -49,7 +49,7 @@ def image(xmin, xmax, ymin, ymax):
 # output.write(response.content)
 # output.close()
 
-response = requests.get('https://imageserver.gisdata.mn.gov/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetMap&LAYERS=neir2009&STYLES=population&CRS=EPSG%3A26915&BBOX=490342.25,5163314.75,765986.25,5392901.75&width=1000&height=833&format=image/geotiff')
-output = open('C:\\Users\\ols00160\\Desktop\\project0\\sampleimage000.tiff', 'wb')
+response = requests.get('https://imageserver.gisdata.mn.gov/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetMap&LAYERS=neir2009&STYLES=population&CRS=EPSG%3A26915&BBOX=490342.25,5163314.75,765986.25,5392901.75&width=1000&height=833&format=image/jpeg')
+output = open('sampleimage000.jpeg', 'wb')
 output.write(response.content)
 output.close()
