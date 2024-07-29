@@ -19,6 +19,7 @@ dimension = 5000    # number of pixels on each side of the image
                     # 4000 x 4000 results in images that are 8.5 - 9.2 MB,
                     # 5000 x 5000 results in images that are 13.3 - 14.3 MB, throughout around 0.333 images/sec
 
+# generate num number of random images of dimension size
 for i in range(num):
     array = np.random.randint(0, 256, size=(dimension, dimension, 3))
     im = Image.fromarray(array.astype('uint8')).convert('RGB')
@@ -44,7 +45,7 @@ for i in range(num):
 #     filepath = f'.\\createrandomimages\\randomtestimage{i}.jpeg'
 #     imagelist.append(open(filepath, 'rb'))
 
-
+# send each image to the Flask endpoint and time how long this process takes for each image
 for i in range(num):
     start_time = time.time()
     #im = Image.open(f'.\\createrandomimages\\randomtestimage{i}.jpeg')
@@ -60,6 +61,7 @@ for i in range(num):
     end_time = time.time()
     timelist.append([end_time - start_time, response.text])
 
+# create a csv file with the time for each image
 with open(f'randomimagetimes{dimension}.csv', 'w') as fp:
     fp.write(f'script, flask\n')
     for i in range(len(timelist)):

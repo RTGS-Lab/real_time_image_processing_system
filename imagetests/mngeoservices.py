@@ -14,11 +14,12 @@ def image(xmin, xmax, ymin, ymax):
     height = (ymax - ymin) / (xmax - xmin) * 400
     #response = requests.get(f'https://imageserver.gisdata.mn.gov/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetMap&LAYERS=dulir09&STYLES=population&CRS=EPSG%3A26915&BBOX={xmin},{ymin},{xmax},{ymax}&width={width}&height={height}&format=image/jpeg')      # Duluth
     response = requests.get(f'https://imageserver.gisdata.mn.gov/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&REQUEST=GetMap&LAYERS=wisc09&STYLES=population&CRS=EPSG%3A26915&BBOX={xmin},{ymin},{xmax},{ymax}&width={width}&height={height}&format=image/jpeg')      # WI south shore of Superior
-    return response.content
-    # output = open('C:\\Users\\ols00160\\Desktop\\project0\\images\\testimage2.jpeg', 'wb')
-    # output.write(response.content)
-    # output.close()
-    # return 'testimage2.jpeg'
+    if response.status_code == 200:
+        return response.content
+    else:
+        print(f'Error retreiving image, status code {response.status_code}')
+        #print(response.text)
+        return None
 
 # 542462.7,5163473.7,595449.6,5233922.4 Duluth north shore
 # minx="602935.2" miny="5143471.2" maxx="730540.8" maxy="5223000" Wisconsin south shore
@@ -38,20 +39,22 @@ for i in range(len(xcors)-1):
         ymin = ycors[j]
         ymax = ycors[j+1]
         result = image(xmin, xmax, ymin, ymax)
-        filename = 'testimage' + str(count) + '.jpeg'
-        data_dict = {}
-        data_dict['filename'] = filename
-        #data_dict['bytes'] = bytes
-        data_dict['coordinates'] = {}
-        data_dict['coordinates']['xmin'] = xmin
-        data_dict['coordinates']['xmax'] = xmax
-        data_dict['coordinates']['ymin'] = ymin
-        data_dict['coordinates']['ymax'] = ymax
+        if result != None:
+            filename = 'testimage' + str(count) + '.jpeg'
+            data_dict = {}
+            data_dict['filename'] = filename
+            #data_dict['bytes'] = bytes
+            data_dict['coordinates'] = {}
+            data_dict['coordinates']['xmin'] = xmin
+            data_dict['coordinates']['xmax'] = xmax
+            data_dict['coordinates']['ymin'] = ymin
+            data_dict['coordinates']['ymax'] = ymax
+            datalist.append(data_dict)
+            with open('data.json', 'w') as fp:
+                json.dump(data_dict, fp)
+            with open('data.json', 'r') as datafile:
+                response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': result, 'data': datafile})    # open the image here
         count += 1
-        datalist.append(data_dict)
-        with open('data.json', 'w') as fp:
-            json.dump(data_dict, fp)
-        response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': result, 'data': open('data.json', 'r')})    # open the image here
         end_time = time.time()
         timelist.append([bytes, end_time - start_time])
 
