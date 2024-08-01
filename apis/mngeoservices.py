@@ -1,3 +1,10 @@
+'''
+Written by Alec Olson
+Last edited July 2024
+
+Please use the updated mngeoservices.py script in the imagetests folder instead of this one.
+'''
+
 import requests
 
 # baseURL = 'https://imageserver.gisdata.mn.gov/cgi-bin/wms?VERSION=1.3.0&SERVICE=WMS&'

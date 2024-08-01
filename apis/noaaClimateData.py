@@ -1,3 +1,30 @@
+'''
+Written by Alec Olson
+Last edited 08/01/2024
+
+Script to pull yearly weather data for St. Paul, MN and save the data to a table in an html file
+
+Class:
+- GSOY
+    - GSOY stands for Global Summary of the Year
+    - Each instance of this class represents a year's worth of data.
+    - Each object has two attributes:
+        - self.year (an integer)
+        - self.attributes (a list containing all the data for that year)
+    - Each object has two getters, one to return self.year and one to return self.attributes
+
+Function:
+- getGSOY(years)
+    - This function takes one parameter, years, which is a list of years
+    - This function then requests a summary of yearly weather data from the NOAA for St. Paul, MN for each of these years
+    - Each year's data is stored in a GSOY object
+    - Each GSOY object is then added to a list, titled gsoyList
+    - This data is then combined into a csv file, with one row for each year
+    - This csv file is then transformed into an html file so that it can easily be displayed in web browser
+    - Return value: the name of the html file which contains the table of weather data
+'''
+
+
 import requests
 import pandas as pd
 
@@ -20,6 +47,7 @@ def getGSOY(years):     # years is a list of years
         year = years[i]
         response = requests.get(f'{intermediateURL}startdate={year}-01-01&enddate={year}-12-31', headers={'token': 'AySiHZbDlhnVHVVZsdimIoQAyhrxIuEx'})
         if response.status_code == 200:
+            print(response.status_code)
             gsoy = response.json()
             if gsoy != {}:
                 n = len(gsoy['results'])
@@ -30,7 +58,7 @@ def getGSOY(years):     # years is a list of years
                     attributeList[j] = combine
                 gsoyList.append(GSOY(year, attributeList))
 
-    with open('C:\\Users\\ols00160\\Desktop\\project0\\templates\\gsoyfile2.csv', 'w') as fp:
+    with open('gsoyfile.csv', 'w') as fp:
         fp.write('YEAR, ')
         for i in range(len(gsoyList[0].getAttributes())-1):
             fp.write(f'{gsoyList[0].getAttributes()[i][0]}, ')
@@ -43,11 +71,11 @@ def getGSOY(years):     # years is a list of years
             fp.write(f'{gsoyList[i].getAttributes()[-1][1]}')
             fp.write('\n')
     
-    a = pd.read_csv('C:\\Users\\ols00160\\Desktop\\project0\\templates\\gsoyfile2.csv')
-    a.to_html('C:\\Users\\ols00160\\Desktop\\project0\\templates\\table.htm')
+    a = pd.read_csv('gsoyfile.csv')
+    a.to_html('table.html')
     #html_file = a.to_html()
 
-    return 'table.htm'
+    return 'table.html'
 
 
 #baseURL = 'https://www.ncei.noaa.gov/cdo-web/api/v2/'
