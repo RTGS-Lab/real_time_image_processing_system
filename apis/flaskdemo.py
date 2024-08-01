@@ -1,3 +1,12 @@
+'''
+Written by Alec Olson
+Last edited 08/01/2024
+
+Proof of concept Flask app to test simple GET and POST requests
+
+The /saveimages endpoint is currently the only endpoint that is working. Use Postman to send images to this endpoint, and it will save the image to disk.
+'''
+
 from flask import Flask, render_template, request
 #import noaaClimateData as noaa
 #import mngeoservices as mngeo
@@ -5,8 +14,8 @@ from PIL import Image
 #import numpy as np
 
 
-#years = list(range(2001, 2003))
-#filename = noaa.getGSOY(years)
+# years = list(range(2001, 2003))
+# filename = noaa.getGSOY(years)
 #image = mngeo.image(602935.2, 730540.8, 5143471.2, 5223000)
 
 

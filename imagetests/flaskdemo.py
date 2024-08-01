@@ -19,7 +19,11 @@ if not os.path.exists(newdir):
 app = Flask(__name__)
 
 
-# @app.route('/')
+@app.route('/')
+def main():
+    name = os.environ.get("NAME", "World")
+    return f'Goodbye {name}'
+
 # def main(name=None):
 #     return render_template(filename, name=name)
 
@@ -50,3 +54,6 @@ def saveimages():
 # @app.route('/image')
 # def get_image(name=None):
 #     return render_template(image, name=name)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
