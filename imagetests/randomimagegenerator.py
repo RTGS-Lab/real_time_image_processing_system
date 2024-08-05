@@ -1,3 +1,18 @@
+'''
+Written by Alec Olson
+Last edited 08/05/2024
+
+A script to generate random images and send them to a web app, which will then save those images to disk.
+
+The first loop in this script generates random images and saves them to disk. The number of images to generate and the size of these images can be adjusted by changing the 'num' and 'dimension' variables, respectively.
+    These images are stored in a new directory titled 'createrandomimages'.
+
+The second loop in this script opens up each image and sends a POST request to a Flask endpoint, described in 'randomimageflask.py', along with a json file containing the name of the image.
+    This loop also records the time taken to send each image to the endpoint, and all this information is then consolidated in a csv file titled 'randomimagetimes<dimension>', where <dimension> is the number of pixels on one side of the image.
+
+'''
+
+
 import numpy as np
 from PIL import Image
 import sys
@@ -12,8 +27,8 @@ newdir = f'.\\createrandomimages'
 if not os.path.exists(newdir):
     os.makedirs(newdir)
 
-num = 100        # number of images to generate
-dimension = 5000    # number of pixels on each side of the image
+num = 5        # number of images to generate
+dimension = 1000    # number of pixels on each side of the image
                     # 1000 x 1000 results in images that are 550-590 KB, throughput as high as 15 images/sec
                     # 2000 x 2000 resulst in images that are 2.1 - 2.3 MB, throughput around 4-5 images/sec
                     # 4000 x 4000 results in images that are 8.5 - 9.2 MB,
@@ -23,27 +38,7 @@ dimension = 5000    # number of pixels on each side of the image
 for i in range(num):
     array = np.random.randint(0, 256, size=(dimension, dimension, 3))
     im = Image.fromarray(array.astype('uint8')).convert('RGB')
-    #print(im.tobytes()[0:100])
     im.save(f'.\\createrandomimages\\randomtestimage{i}.jpeg')
-    # im = Image.open(f'.\\randomimages\\randomtestimage{i}.jpeg')
-    # bytes = im.tobytes()
-    # #print(sum(bytes))
-    # #print(bytes[0:100])
-    # filename = 'randomtestimage' + str(i) + '.jpeg'
-    # data_dict = {}
-    # data_dict['filename'] = filename
-    # #bytes = sys.getsizeof(im.tobytes())
-    # with open('randomimagedata.json', 'w') as fp:
-    #     json.dump(data_dict, fp)
-    # #print(f'Bytes: {bytes}')            # the size of these 1000 x 1000 images is 3,000,033 bytes, which is 3 MB; however, once the images are saved, File Explorer shows that these images are 588 or 589 KB, which is only 20% the size that this line says the images are
-    # response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': bytes, 'data': open('randomimagedata.json', 'r')})    # open the image here
-    #print(f'Kilobytes: {bytes/1000}')
-
-# imagelist = []
-
-# for i in range(num):
-#     filepath = f'.\\createrandomimages\\randomtestimage{i}.jpeg'
-#     imagelist.append(open(filepath, 'rb'))
 
 # send each image to the Flask endpoint and time how long this process takes for each image
 for i in range(num):
@@ -56,13 +51,24 @@ for i in range(num):
     data_dict['filename'] = filename
     with open('randomimagedata.json', 'w') as fp:
         json.dump(data_dict, fp)
-    response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': open(filepath, 'rb'), 'data': open('randomimagedata.json', 'r')})    # open the image here
-    #print(response.text)
+    
+    # #this always returns the same bytestream
+    # with open(filepath, 'rb') as image:
+    #     data = image.read()
+    #     print(data[0:100])
+
+    with open(filepath, 'rb') as image:
+        response = requests.post('http://127.0.0.1:5000/saverandomimages', files={'image': image, 'data': open('randomimagedata.json', 'r')})    # open the image here
+        #data = image.read()
+        #print(data[0:100])
+        print(response.text)
+        print(response.status_code)
+    print()
     end_time = time.time()
     timelist.append([end_time - start_time, response.text])
 
 # create a csv file with the time for each image
-with open(f'randomimagetimes{dimension}.csv', 'w') as fp:
+with open(f'cloudrandomimagetimes{dimension}.csv', 'w') as fp:
     fp.write(f'script, flask\n')
     for i in range(len(timelist)):
         fp.write(f'{timelist[i][0]}, {timelist[i][1]}\n')
