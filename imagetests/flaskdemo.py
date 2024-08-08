@@ -20,6 +20,7 @@ from PIL import Image
 import rasterio
 import json
 import os
+import time
 #import numpy as np
 
 newdir = f'.\\flaskimages'
@@ -53,18 +54,22 @@ def main():
 @app.route('/saveimages', methods=['GET', 'POST'])
 def saveimages():
     if request.method=='POST':
+        start_time = time.time()
         image = request.files['image']
         data = json.load(request.files['data'])
         #size = request.json['size']
         #im = rasterio.open(image)
         im = Image.open(image)
-        bytes = im.tobytes()
+        #bytes = im.tobytes()
         #filename = 'doesthiswork' + str(size) + '.jpeg'
         im.save(f'.\\flaskimages\\{data['filename']}')
         #print(bytes[0:100])
         # image_name = f'{image.filename}testing'
         # image.save(image_name.tobytes())
-        return {'response':f'{bytes[0:100]}\n{sum(bytes)}'}
+        filesize = os.path.getsize(f'.\\flaskimages\\{data['filename']}')
+        end_time = time.time()
+        total_time = end_time - start_time
+        return f'{str(total_time)} {str(filesize)}'
 
 # @app.route('/image')
 # def get_image(name=None):

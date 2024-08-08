@@ -44,10 +44,10 @@ app = Flask(__name__)
 @app.route('/saverandomimages', methods=['GET', 'POST'])
 def saverandomimages():
     if request.method=='POST':
-        #start_time = time.time()
+        start_time = time.time()
         bytes = request.files['image']
         im = Image.open(bytes)
-        bytes = im.tobytes()
+        #bytes = im.tobytes()
         #image = Image.frombytes(mode='RGB', size=[1000, 1000], data=im)
         data = json.load(request.files['data'])
         #size = request.json['size']
@@ -55,6 +55,6 @@ def saverandomimages():
         #im = Image.open(image)
         #bytes = im.tobytes()
         im.save(f'.\\saverandomimages\\{data['filename']}')
-        #end_time = time.time()
-        #total_time = end_time - start_time
-        return f'{bytes[0:100]}'
+        end_time = time.time()
+        total_time = end_time - start_time
+        return str(total_time)

@@ -73,7 +73,7 @@ for i in range(len(xcors)-1):
             with open('data.json', 'w') as fp:
                 json.dump(data_dict, fp)
             with open('data.json', 'r') as datafile:
-                response = requests.post('https://imagetests-ieix5g464a-uc.a.run.app/saveimages', files={'image': result, 'data': datafile})    # open the image here
+                response = requests.post('http://127.0.0.1:5000/saveimages', files={'image': result, 'data': datafile})    # open the image here
                 print(response.content)
         count += 1
         end_time = time.time()

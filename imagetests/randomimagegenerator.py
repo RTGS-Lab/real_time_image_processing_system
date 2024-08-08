@@ -27,8 +27,8 @@ newdir = f'.\\createrandomimages'
 if not os.path.exists(newdir):
     os.makedirs(newdir)
 
-num = 5        # number of images to generate
-dimension = 1000    # number of pixels on each side of the image
+num = 100        # number of images to generate
+dimension = 500    # number of pixels on each side of the image
                     # 1000 x 1000 results in images that are 550-590 KB, throughput as high as 15 images/sec
                     # 2000 x 2000 resulst in images that are 2.1 - 2.3 MB, throughput around 4-5 images/sec
                     # 4000 x 4000 results in images that are 8.5 - 9.2 MB,
@@ -61,9 +61,9 @@ for i in range(num):
         response = requests.post('http://127.0.0.1:5000/saverandomimages', files={'image': image, 'data': open('randomimagedata.json', 'r')})    # open the image here
         #data = image.read()
         #print(data[0:100])
-        print(response.text)
-        print(response.status_code)
-    print()
+        #print(response.text)
+        #print(response.status_code)
+    #print()
     end_time = time.time()
     timelist.append([end_time - start_time, response.text])
 
